@@ -15,17 +15,6 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 object Koin {
-    fun initKoin(context: Context) {
-        startKoin{
-            androidContext(context)
-            modules(moduleList)
-        }
-    }
-    val moduleList: List<Module> = listOf(
-        viewModelModule,
-        repositoryModule,
-        localModule
-    )
     private val viewModelModule = module {
         viewModel { CartViewModel(get()) }
         viewModel { DetailViewModel(get()) }
@@ -39,5 +28,16 @@ object Koin {
     private val localModule = module {
         single { AppDatabase.getInstance(androidContext()) }
         single { get<AppDatabase>().cartDao }
+    }
+    val moduleList: List<Module> = listOf(
+        viewModelModule,
+        repositoryModule,
+        localModule
+    )
+    fun initKoin(context: Context) {
+        startKoin{
+            androidContext(context)
+            modules(moduleList)
+        }
     }
 }
